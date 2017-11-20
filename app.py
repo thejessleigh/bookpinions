@@ -2,14 +2,21 @@ import json
 import os
 
 from flask import Flask
+from flask.ext.sqlalchemy import SQLAlchemy
 from goodreads.client import GoodreadsClient
 
 app = Flask(__name__)
 
+# Set up database
+db = SQLAlchemy()
+db.app = app
+db.init_app(app)
+
+# Set up goodreads client
 gc = GoodreadsClient(os.environ['GOODREADS_KEY'], os.environ['GOODREADS_SECRET'])
 
-
-@app.route("/")
+# Check app and goodreads client status
+@app.route("/status")
 def status():
     book = gc.book(1)
     status_dict = {
@@ -20,3 +27,5 @@ def status():
         }
     }
     return json.dumps(status_dict)
+
+
