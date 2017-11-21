@@ -2,18 +2,23 @@ import json
 import os
 
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
 from goodreads.client import GoodreadsClient
 
+from bookpinions.users import user_blueprint
+from database import db
+
 app = Flask(__name__)
+app.config.from_object(os.environ['APP_SETTINGS'])
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Set up database
-db = SQLAlchemy()
 db.app = app
 db.init_app(app)
 
 # Set up goodreads client
 gc = GoodreadsClient(os.environ['GOODREADS_KEY'], os.environ['GOODREADS_SECRET'])
+
+app.register_blueprint(user_blueprint, url_prefix='/user')
 
 # Check app and goodreads client status
 @app.route("/status")
@@ -28,4 +33,5 @@ def status():
     }
     return json.dumps(status_dict)
 
-
+if __name__ == '__main__':
+    app.run()
