@@ -6,7 +6,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     goodreads_user_id = db.Column(db.Integer, nullable=False)
-    name = db.Colmn(db.String(255))
+    name = db.Column(db.String(255))
     created_time = db.Column(db.DateTime)
     visibility = db.Column(db.String(10), default="private")
 
