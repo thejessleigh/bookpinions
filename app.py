@@ -3,6 +3,7 @@ import os
 
 from flask import Flask
 from goodreads.client import GoodreadsClient
+import redis
 
 from bookpinions.users import user_blueprint
 from database import db
@@ -14,6 +15,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Set up database
 db.app = app
 db.init_app(app)
+redis_db = redis.StrictRedis(
+    host=app.config.get('REDIS_HOST'),
+    port=app.config.get('REDIS_PORT'),
+    decode_responses=True
+)
 
 # Set up goodreads client
 gc = GoodreadsClient(os.environ['GOODREADS_KEY'], os.environ['GOODREADS_SECRET'])

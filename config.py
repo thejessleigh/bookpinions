@@ -8,7 +8,8 @@ class Config():
     TESTING = False
     SECRET_KEY = os.environ['BOOKPINIONS_SECRET']
     SQLALCHEMY_DATABASE_URI = os.environ['BOOKPINIONS_DATABASE_URL']
-
+    REDIS_HOST = 'localhost'
+    REDIS_PORT = 6379
 
 class Production(Config):
     DEBUG = False
