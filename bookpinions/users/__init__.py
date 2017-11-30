@@ -4,15 +4,16 @@ import os
 import time
 import webbrowser
 
-from flask import Blueprint, session, request, redirect
+from flask import Blueprint, session, request, redirect, render_template
 from goodreads.client import GoodreadsClient
 from goodreads.session import GoodreadsSession
 from sqlalchemy import and_
 
+from bookpinions.templates import template_env
+from bookpinions.users import views
 from bookpinions.users.models import User
 from database import db
 
-# TODO: Set up routes
 # TODO: Break things out into routes and helpers in a separate file
 
 user_blueprint = Blueprint('user', __name__)
@@ -73,14 +74,9 @@ def get_or_create_user(goodreads_client):
 
 @user_blueprint.route('/<int:user_gid>', methods=['GET'])
 def show_user(user_gid):
-    if user_gid == session.get('gid'):
-        user = db.user.filter_by(goodreads_user_id=session.get('gid'))
-    else:
-        user = db.user.filter(and_(db.user.goodreads_user_id == session.get('gid')), db.user.visibility == 'public').first()
-    if user is None:
-        return json.dumps({"status": 404, "message": "User not found"})
+    user = views.get_user(user_gid)
 
-    return json.dumps({"name": user.name, "status": 200})
+    return render_template(template_env.get_template('base.html'), user=user)
 
 
 @user_blueprint.route('/<int:user_gid>/reviews/<string:shelf_name>', methods=['GET'])

@@ -24,6 +24,7 @@ redis_db = redis.StrictRedis(
 # Set up goodreads client
 gc = GoodreadsClient(os.environ['GOODREADS_KEY'], os.environ['GOODREADS_SECRET'])
 
+# register blueprints
 app.register_blueprint(user_blueprint, url_prefix='/user')
 
 # Check app and goodreads client status
