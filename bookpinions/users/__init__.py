@@ -32,7 +32,6 @@ def sign_in():
     return redirect(url)
 
 
-
 @user_blueprint.route('/callback', methods=['GET'])
 def callback():
     gc.session.oauth_finalize()
@@ -46,6 +45,7 @@ def callback():
         return json.dumps({"status": 500})
     user = User.query.filter_by(goodreads_user_id=session.get('gid')).first()
     return json.dumps({"status": 201, "user": user.username})
+
 
 @user_blueprint.route('/sign-out', methods=['POST'])
 def sign_out():
