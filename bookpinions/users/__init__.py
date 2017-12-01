@@ -12,7 +12,7 @@ from sqlalchemy import and_
 from bookpinions.templates import template_env
 from bookpinions.users import views
 from bookpinions.users.models import User
-from database import db
+from utils import db
 
 # TODO: Break things out into routes and helpers in a separate file
 
