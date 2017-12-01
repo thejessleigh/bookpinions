@@ -1,7 +1,8 @@
 import json
 
-from flask import Blueprint
+from flask import Blueprint, render_template
 
+from bookpinions.templates import template_env
 from utils import gc
 
 main_blueprint = Blueprint('main', __name__)
@@ -18,3 +19,7 @@ def status():
         }
     }
     return json.dumps(status_dict)
+
+@main_blueprint.route("/")
+def home():
+    return render_template(template_env.get_template('home.html'))
