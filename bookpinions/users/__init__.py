@@ -76,7 +76,7 @@ def get_or_create_user(goodreads_client):
 def show_user(user_gid):
     user = views.get_user(user_gid)
 
-    return render_template(template_env.get_template('base.html'), user=user)
+    return render_template(template_env.get_template('show_user.html'), user=user)
 
 
 @user_blueprint.route('/<int:user_gid>/reviews/<string:shelf_name>', methods=['GET'])
