@@ -3,7 +3,7 @@ repos:
     rev: stable
     hooks:
     - id: black
--   repo: https://gitlab.com/pycqa/flake8
-    rev: fadedefae2df9fa6dff624fab733d717aea5ca0e
-    hooks:
-    - id: flake8
+#-   repo: https://gitlab.com/pycqa/flake8
+#    rev: fadedefae2df9fa6dff624fab733d717aea5ca0e
+#    hooks:
+#    - id: flake8
