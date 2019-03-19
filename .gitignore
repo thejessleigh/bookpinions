@@ -4,3 +4,4 @@
 __pycache__/
 *.pyc
 dump.rdb
+db.sqlite3
