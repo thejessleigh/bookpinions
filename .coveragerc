@@ -1,4 +1,5 @@
 [run]
 branch = True
 omit =
-    venv/*
+    book_report/migrations/*
+    book_report/apps.py
