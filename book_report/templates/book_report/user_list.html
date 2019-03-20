@@ -1,12 +1,12 @@
 <html>
-<head>
+  <head>
     <title>Bookpinions</title>
-</head>
-<body>
-<ul>
-{% for user in users %}
-    <li>{{ user.username }}</li>
-{% endfor %}
-</ul>
-</body>
+  </head>
+  <body>
+    <ul>
+      {% for user in users %}
+      <li>{{ user.name }}</li>
+      {% endfor %}
+    </ul>
+  </body>
 </html>

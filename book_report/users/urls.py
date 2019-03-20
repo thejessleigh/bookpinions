@@ -1,6 +1,6 @@
 from django.urls import path
 
-from book_report import views
+from book_report.users import views
 
 urlpatterns = [
     path("", views.user_list, name="user_list"),
@@ -10,10 +10,5 @@ urlpatterns = [
         "user-reviews/<int:user_gid>",
         views.get_all_shelf_reviews_for_user,
         name="user_reviews",
-    ),
-    path(
-        "opinion-report/<int:user_gid>",
-        views.identify_controversial_opinions,
-        name="opinion_report",
     ),
 ]
