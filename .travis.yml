@@ -1,10 +1,10 @@
 language: python
 python:
   - "3.6"
-  - "3.7"
+  - "3.7-dev"
 install:
   - pip install -r requirements.txt
 script:
-  - pytest --cov=book_report --cov=bookpinions
+  - pytest --cov-config .coveragerc --cov=book_report
 after_success:
   - coveralls
