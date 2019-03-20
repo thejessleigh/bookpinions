@@ -3,6 +3,7 @@ import os
 import webbrowser
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from django.shortcuts import render, redirect
 from goodreads.client import GoodreadsClient
 from goodreads.session import GoodreadsSession
@@ -69,3 +70,24 @@ def user_list(request):
         pass
 
     return render(request, "book_report/user_list.html", {"users": users})
+
+
+def get_all_shelf_reviews_for_user(request, user_gid, shelf_name="read"):
+    # TODO: might break out reviews vs users view functions into separate files
+    if user_gid == request.session.get("gid"):
+        visible = True
+    else:
+        try:
+            user = User.objects.get(goodreads_user_id=user_gid)
+            if user.visibility == 0:
+                visible = False
+            visible = True
+        except ObjectDoesNotExist:
+            visible = False
+
+    if visible is False:
+        raise Http404("User not found")
+
+    reviews = gc.user(user_gid).per_shelf_reviews(shelf_name=shelf_name)
+
+    return render(request, "book_report/user_shelf_reviews.html", {"reviews": reviews})
