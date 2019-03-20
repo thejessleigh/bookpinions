@@ -1,8 +1,29 @@
 repos:
--   repo: https://github.com/ambv/black
+  - repo: https://github.com/ambv/black
     rev: stable
     hooks:
-    - id: black
+      - id: black
+  - repo: https://github.com/asottile/blacken-docs
+    rev: master
+    hooks:
+      - id: blacken-docs
+    additional_dependencies: [black]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: master
+    hooks:
+      - id: trailing-whitespace
+    additional_dependencies: [black]
+  - repo: https://github.com/prettier/prettier
+    rev: master
+    hooks:
+      - id: prettier
+    files: "\\.(\
+      css|less|scss\
+      |html\
+      |js\
+      |md|markdown|mdown|mkdn\
+      |yaml|yml\
+      )$"
 #-   repo: https://gitlab.com/pycqa/flake8
 #    rev: fadedefae2df9fa6dff624fab733d717aea5ca0e
 #    hooks:

@@ -1,4 +1,4 @@
 django==2.1.7
 ipython==6.2.1
 pre-commit==1.14.4
--e git+git@github.com:thejessleigh/goodreads2.git#egg=goodreads2
+-e /Users/junrein/projects/goodreads2
