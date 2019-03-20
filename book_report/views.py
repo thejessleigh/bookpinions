@@ -28,6 +28,11 @@ def sign_in(request):
     return redirect(url)
 
 
+def sign_out(request):
+    del request.session["gid"]
+    return redirect("")
+
+
 def gc_authenticate_callback(request):
     gc.session.oauth_finalize()
     print("HELLO")
