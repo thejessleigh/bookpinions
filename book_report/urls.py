@@ -11,4 +11,9 @@ urlpatterns = [
         views.get_all_shelf_reviews_for_user,
         name="user_reviews",
     ),
+    path(
+        "opinion-report/<int:user_gid>",
+        views.identify_controversial_opinions,
+        name="opinion_report",
+    ),
 ]

@@ -1,4 +1,5 @@
 import datetime
+import operator
 import os
 import webbrowser
 
@@ -73,21 +74,70 @@ def user_list(request):
 
 
 def get_all_shelf_reviews_for_user(request, user_gid, shelf_name="read"):
+    """
+    A user can only see a complete list of their own reviews
+    :param request:
+    :param user_gid:
+    :param shelf_name:
+    :return:
+    """
     # TODO: might break out reviews vs users view functions into separate files
-    if user_gid == request.session.get("gid"):
+    if not user_is_visible(request.session.get("gid"), user_gid):
+        raise Http404("User not found")
+
+    reviews = gc.user(user_gid).per_shelf_reviews(shelf_name=shelf_name)
+
+    return render(request, "book_report/user_shelf_reviews.html", {"reviews": reviews})
+
+
+def identify_controversial_opinions(request, user_gid, report_length=20):
+    """
+    Note: ratings with a review score of '0' will be discarded as they skew the results to books on your read shelf that haven't been rated.
+    :param request:
+    :param user_gid:
+    :param report_length:
+    :return:
+    """
+    if not user_is_visible(request.session.get("gid"), user_gid):
+        raise Http404("User not found")
+
+    reviews = gc.user(user_gid).per_shelf_reviews(shelf_name="read")
+
+    diffed_reviews = []
+
+    for review in reviews:
+        if review.rating == "0":
+            continue
+        average_score = review.book["average_rating"]
+        diff = abs(float(average_score) - float(review.rating))
+        diffed_reviews.append((diff, review))
+
+    diffed_reviews.sort(key=operator.itemgetter(0), reverse=True)
+    print(diffed_reviews)
+    return render(
+        request,
+        "book_report/user_opinions_report.html",
+        {"reviews": [r[1] for r in diffed_reviews][:report_length]},
+    )
+
+
+def user_is_visible(session_user_id, user_gid):
+    """
+    Helper function that determines if a requested user is visible to the logged in user.
+    :param session_user_id:
+    :param user_gid:
+    :return:
+    """
+    if user_gid == session_user_id:
         visible = True
     else:
         try:
             user = User.objects.get(goodreads_user_id=user_gid)
             if user.visibility == 0:
                 visible = False
-            visible = True
+            else:
+                visible = True
         except ObjectDoesNotExist:
             visible = False
 
-    if visible is False:
-        raise Http404("User not found")
-
-    reviews = gc.user(user_gid).per_shelf_reviews(shelf_name=shelf_name)
-
-    return render(request, "book_report/user_shelf_reviews.html", {"reviews": reviews})
+    return visible

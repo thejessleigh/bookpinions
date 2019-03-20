@@ -3,8 +3,10 @@
     <title>Bookpinions</title>
 </head>
 <body>
+<ul>
 {% for user in users %}
-    {{ user.username }}
+    <li>{{ user.username }}</li>
 {% endfor %}
+</ul>
 </body>
 </html>
