@@ -1,13 +1,9 @@
 import operator
-import os
 
 from django.http import Http404
 from django.shortcuts import render
-from goodreads.client import GoodreadsClient
 
-from book_report.utils import user_is_visible
-
-gc = GoodreadsClient(os.environ["GOODREADS_KEY"], os.environ["GOODREADS_SECRET"])
+from book_report.utils import user_is_visible, get_goodreads_client
 
 
 def controversial_opinions_report(request, user_gid, report_length=10):
@@ -18,6 +14,7 @@ def controversial_opinions_report(request, user_gid, report_length=10):
     :param report_length: how many books to include in the report
     :return:
     """
+    gc = get_goodreads_client()
     if not user_is_visible(request.session.get("gid"), user_gid):
         raise Http404("User not found")
 

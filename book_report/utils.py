@@ -1,4 +1,7 @@
+import os
+
 from django.core.exceptions import ObjectDoesNotExist
+from goodreads.client import GoodreadsClient
 
 from book_report.users.models import User
 
@@ -23,3 +26,7 @@ def user_is_visible(session_user_id, user_gid):
             visible = False
 
     return visible
+
+
+def get_goodreads_client():
+    gc = GoodreadsClient(os.environ["GOODREADS_KEY"], os.environ["GOODREADS_SECRET"])

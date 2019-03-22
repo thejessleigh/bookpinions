@@ -13,4 +13,4 @@ class User(models.Model):
     updated = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return "{}:{}".format(self.goodreads_user_id, self.username)
+        return "{}:{}".format(self.goodreads_user_id, self.name)
