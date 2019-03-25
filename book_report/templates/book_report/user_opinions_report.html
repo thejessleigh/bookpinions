@@ -1,0 +1,14 @@
+{#1724077#}
+
+<html>
+<head>
+    <title>Bookpinions</title>
+</head>
+<body>
+<ul>
+{% for review in reviews %}
+    <li>{{ review.book.title }} : {{ review.book.authors }} : {{ review.rating }} : {{ review.book.average_rating }}</li>
+{% endfor %}
+</ul>
+</body>
+</html>

@@ -1,0 +1,5 @@
+[run]
+branch = True
+omit =
+    book_report/migrations/*
+    book_report/apps.py
