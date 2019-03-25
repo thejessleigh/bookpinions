@@ -29,4 +29,4 @@ def user_is_visible(session_user_id, user_gid):
 
 
 def get_goodreads_client():
-    gc = GoodreadsClient(os.environ["GOODREADS_KEY"], os.environ["GOODREADS_SECRET"])
+    return GoodreadsClient(os.environ["GOODREADS_KEY"], os.environ["GOODREADS_SECRET"])
